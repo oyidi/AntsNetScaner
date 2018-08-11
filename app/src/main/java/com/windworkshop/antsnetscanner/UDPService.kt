@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import org.json.JSONObject
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -12,9 +13,9 @@ import java.net.InetAddress
  * Created by Johnson on 2018/8/10.
  */
 class UDPService : Service() {
-
+    var binder : UDPServiceBinder = UDPServiceBinder()
     override fun onBind(p0: Intent?): IBinder {
-        return UDPServiceBinder();
+        return binder;
     }
 
     override fun onCreate() {
@@ -35,7 +36,14 @@ class UDPService : Service() {
 
                 val result = String(response.getData(), 0, response.getLength(), Charsets.US_ASCII)
 
+                println(response.socketAddress)
+
+                val json : JSONObject = JSONObject(result)
                 println(result)
+
+                binder.addDevice(json.getString("id"), json.getString("mac"), response.socketAddress.toString(), json.getString("msg"))
+
+
             } catch (e : Exception){
                 e.printStackTrace()
             } finally {
@@ -45,12 +53,20 @@ class UDPService : Service() {
         thread.start();
     }
     class UDPServiceBinder : Binder() {
+        var deviceListener : DeviceItemChangeListener? = null
         var deviceList : ArrayList<DeviceItem> = ArrayList()
-        fun addDevice(serialNumber : String, macAddress : String, ip : String) {
-            deviceList.add(DeviceItem(serialNumber, macAddress, ip))
+        fun addDevice(serialNumber : String, macAddress : String, ip : String, msg : String) {
+           var  device : DeviceItem = DeviceItem(serialNumber, macAddress, ip, msg)
+            deviceList.add(device)
+            if(deviceListener != null) {
+                deviceListener?.onAddDevice(device)
+            }
         }
         fun getDevice(index : Int) : DeviceItem {
             return deviceList.get(index)
+        }
+        fun setListener(listener : DeviceItemChangeListener?) {
+            deviceListener = listener
         }
     }
 

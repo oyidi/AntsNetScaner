@@ -1,5 +1,6 @@
 package com.windworkshop.antsnetscanner
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        main_toolbar.setTitleTextColor(Color.WHITE)
         setSupportActionBar(main_toolbar)
         fragments.add(ScanerFragment().getInstan() as Fragment)
         var fragmentManager : MainScanerTabAdapter = MainScanerTabAdapter(supportFragmentManager, this, fragments)

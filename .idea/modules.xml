@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AntsNetScannerKotlin.iml" filepath="$PROJECT_DIR$/AntsNetScannerKotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AntsNetScaner.iml" filepath="$PROJECT_DIR$/AntsNetScaner.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
