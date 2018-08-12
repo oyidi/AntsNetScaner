@@ -74,6 +74,7 @@ class ScanerFragment : LazyLoadFragment() {
                 }
             }
             serviceInterface?.setListener(listener)
+            serviceInterface?.startScaner()
         }
 
     }
