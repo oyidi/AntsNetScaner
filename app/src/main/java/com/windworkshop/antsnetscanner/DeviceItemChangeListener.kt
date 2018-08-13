@@ -5,4 +5,6 @@ package com.windworkshop.antsnetscanner
  */
 interface DeviceItemChangeListener {
     public fun onAddDevice(device : DeviceItem)
+    public fun onStartScaner()
+    public fun onFinishScaner()
 }

@@ -67,6 +67,13 @@ class ScanerFragment : LazyLoadFragment() {
             println("服务已绑定")
             serviceInterface = p1 as UDPService.UDPServiceBinder
             val listener = object : DeviceItemChangeListener {
+                override fun onStartScaner() {
+                }
+
+                override fun onFinishScaner() {
+
+                }
+
                 override fun onAddDevice(device : DeviceItem) {
                     println("add device")
                     scanerListviewAdapter?.addDevice(device)
@@ -111,7 +118,7 @@ class ScanerFragment : LazyLoadFragment() {
         override fun onBindViewHolder(holder: UDPDeviceListAdapterViewHolder?, position: Int) {
             holder?.itemView?.setTag(position)
             holder?.titleText?.setText("编号：" + deviceList.get(position).serialNumber);
-            holder?.detailText?.setText("MAC:" + deviceList.get(position).macAddress + " ip:" + deviceList.get(position).ipAddress + " 自定义信息:" + deviceList.get(position).diymsg)
+            holder?.detailText?.setText("MAC:" + deviceList.get(position).macAddress + "\nip:" + deviceList.get(position).ipAddress + "\n自定义信息:" + deviceList.get(position).diymsg)
             println("onBindViewHolder " + position)
         }
 
