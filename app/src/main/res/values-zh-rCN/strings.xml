@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AntsNetScanner</string>
+    <string name="switch_screen">切换显示</string>
+    <string name="hide_screen">息屏</string>
+
+</resources>

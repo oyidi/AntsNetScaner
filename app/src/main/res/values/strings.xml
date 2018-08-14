@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AntsNetScanner</string>
+    <string name="switch_screen">Switch Screen</string>
+    <string name="hide_screen">hide_screen</string>
 </resources>

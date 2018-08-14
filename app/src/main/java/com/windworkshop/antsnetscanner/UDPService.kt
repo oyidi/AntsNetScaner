@@ -43,7 +43,9 @@ class UDPService : Service() {
                         println(response.socketAddress)
                         val json : JSONObject = JSONObject(result)
                         println(result)
-                        binder.addDevice(json.getString("id"), json.getString("mac"), response.socketAddress.toString(), json.getString("msg"))
+                        var ip : String = response.socketAddress.toString()
+                        ip = ip.substring(1, ip.indexOf(":"))
+                        binder.addDevice(json.getString("id"), json.getString("mac"), ip, json.getString("msg"))
                     }
                     //udpSocket?.close()
                 } catch (e : Exception){
