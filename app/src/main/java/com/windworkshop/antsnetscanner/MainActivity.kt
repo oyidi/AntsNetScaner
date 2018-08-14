@@ -5,13 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import java.net.DatagramSocket
-import java.lang.reflect.Array.getLength
-import android.system.Os.socket
-import android.widget.TextView
+import com.windworkshop.antsnetscanner.fragment.ScanerFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import java.net.DatagramPacket
-import java.net.InetAddress
 
 
 class MainActivity : AppCompatActivity() {

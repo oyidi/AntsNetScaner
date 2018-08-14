@@ -8,43 +8,50 @@ import org.json.JSONObject
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
+import java.net.InetSocketAddress
 
 /**
  * Created by Johnson on 2018/8/10.
  */
 class UDPService : Service() {
+    var udpSocket : DatagramSocket? = null
     var controlInterface = object : IUDPServiceControl {
         override  fun startScaner() {
             var thread : Thread = Thread(Runnable { kotlin.run {
                 binder.onStart()
                 try {
-                    var udpSocket : DatagramSocket = DatagramSocket(8366);
-                    //udpSocket.setSoTimeout(10000)
+                    if(udpSocket == null) {
+                        udpSocket = DatagramSocket(null);
+                        udpSocket?.setReuseAddress(true);
+                        udpSocket?.bind(InetSocketAddress(8366));
+                    }
+
+                    udpSocket?.setSoTimeout(10000)
                     val host = InetAddress.getByName("255.255.255.255")
                     var  sendData : ByteArray = "hello".toByteArray()
                     //指定包要发送的目的地
                     val request = DatagramPacket(sendData, sendData.size, host, 8266)
                     //为接受的数据包创建空间
                     val response = DatagramPacket(ByteArray(1024), 1024)
-                    udpSocket.send(request)
+                    udpSocket?.send(request)
 
                     var delayTime : Long = System.currentTimeMillis() + 10000
 
                     while (System.currentTimeMillis() < delayTime) {
-                        udpSocket.receive(response)
+                        udpSocket?.receive(response)
                         val result = String(response.getData(), 0, response.getLength(), Charsets.US_ASCII)
                         println(response.socketAddress)
                         val json : JSONObject = JSONObject(result)
                         println(result)
                         binder.addDevice(json.getString("id"), json.getString("mac"), response.socketAddress.toString(), json.getString("msg"))
                     }
-                    udpSocket.close()
+                    //udpSocket?.close()
                 } catch (e : Exception){
                     e.printStackTrace()
                 } finally {
 
-                    binder.onFinish()
                 }
+                binder.onFinish()
             } });
             thread.start();
         }
@@ -77,6 +84,7 @@ class UDPService : Service() {
         }
         fun onFinish() {
             if(deviceListener != null) {
+                println("scan finish")
                 deviceListener?.onFinishScaner()
             }
         }
