@@ -3,5 +3,10 @@
     <string name="app_name">AntsNetScanner</string>
     <string name="switch_screen">切换显示</string>
     <string name="hide_screen">息屏</string>
+    <string name="set_time">设置当前时间</string>
+    <string name="show_detail">显示信息</string>
+    <string name="reboot">重启设备</string>
+    <string name="diy_msg_text">自定义文字</string>
+    <string name="diy_msg_setting">设置</string>
 
 </resources>

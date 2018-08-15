@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter
 /**
  * Created by Johnson on 2018/8/9.
  */
-class MainScanerTabAdapter(fm: FragmentManager?, context : Context, fragments : ArrayList<Fragment>) : FragmentPagerAdapter(fm) {
+class MainScanerTabAdapter(fm: FragmentManager?, fragments : ArrayList<Fragment>) : FragmentPagerAdapter(fm) {
     var fragment = fragments
     var tabTitles : Array<String> = arrayOf("搜索列表")
     override fun getItem(position: Int): Fragment {

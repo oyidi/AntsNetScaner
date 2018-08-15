@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         main_toolbar.setTitleTextColor(Color.WHITE)
         setSupportActionBar(main_toolbar)
         fragments.add(ScanerFragment().getInstan() as Fragment)
-        var fragmentManager : MainScanerTabAdapter = MainScanerTabAdapter(supportFragmentManager, this, fragments)
+        var fragmentManager : MainScanerTabAdapter = MainScanerTabAdapter(supportFragmentManager, fragments)
         viewPager.setAdapter(fragmentManager)
         main_tabs.setupWithViewPager(viewPager);
         main_tabs.setTabMode(TabLayout.MODE_FIXED);

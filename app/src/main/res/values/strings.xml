@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">AntsNetScanner</string>
-    <string name="switch_screen">Switch Screen</string>
-    <string name="hide_screen">hide_screen</string>
+    <string name="switch_screen">Switch screen</string>
+    <string name="hide_screen">Hide screen</string>
+    <string name="set_time">Set time</string>
+    <string name="show_detail">Show detail</string>
+    <string name="reboot">Reboot</string>
+    <string name="diy_msg_text">Custom Text</string>
+    <string name="diy_msg_setting">Set</string>
 </resources>
