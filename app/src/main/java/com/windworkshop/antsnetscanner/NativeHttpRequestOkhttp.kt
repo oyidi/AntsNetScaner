@@ -18,18 +18,23 @@ import com.squareup.okhttp.OkHttpClient
  * Created by Johnson on 2018/8/15.
  */
 class NativeHttpRequestOkhttp {
-    var client: OkHttpClient? = createNormalClient()
-    fun createNormalClient(): OkHttpClient {
-        var okhttp : OkHttpClient = OkHttpClient()
-        okhttp.setWriteTimeout(10, TimeUnit.SECONDS)
-        okhttp.setReadTimeout(10, TimeUnit.SECONDS)
-        okhttp.setConnectTimeout(10, TimeUnit.SECONDS)
-        return okhttp
+
+    companion object {
+        var client: OkHttpClient? = createNormalClient()
+        fun createNormalClient(): OkHttpClient {
+            var okhttp : OkHttpClient = OkHttpClient()
+            okhttp.setWriteTimeout(10, TimeUnit.SECONDS)
+            okhttp.setReadTimeout(10, TimeUnit.SECONDS)
+            okhttp.setConnectTimeout(10, TimeUnit.SECONDS)
+            return okhttp
+        }
+        fun createNormalRequest(url: String): Request {
+            return Request.Builder().url(url).build()
+        }
     }
 
-    fun createNormalRequest(url: String): Request {
-        return Request.Builder().url(url).build()
-    }
+
+
     fun postRequestWithData(url: String?, data: String, requestReciver: IHttpRequest) {
         val postThread = PostThread(url, requestReciver, data)
         postThread.execute()
@@ -42,19 +47,59 @@ class NativeHttpRequestOkhttp {
 
     fun getRequest(url: String, requester: IHttpRequest) {
         try {
-            val request = createNormalRequest(url)
+            val request = NativeHttpRequestOkhttp.createNormalRequest(url)
             val call = client?.newCall(request)
             call?.enqueue(object : Callback {
                 override fun onFailure(request: Request, e: IOException) {
-                    requester.onRequestRecive(true, e.toString())
+                    requester?.onRequestRecive(true, e.toString())
                 }
                 override fun onResponse(response: Response) {
-                    requester.onRequestRecive(false, response.body().string())
+                    requester?.onRequestRecive(false, response.body().string())
                 }
             })
 
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+        //var getThread = GetThread(url, requester)
+        //getThread.execute()
+    }
+    class GetThread : AsyncTask<String, Int, String> {
+        var requestReciver: IHttpRequest? = null
+        var url : String = ""
+        var result : String = ""
+        var error : Boolean = false
+        constructor(url: String, requestReciver: IHttpRequest){
+            this.url = url
+            this.requestReciver = requestReciver
+
+        }
+
+        override fun doInBackground(vararg p0: String?): String {
+            try {
+                val request = NativeHttpRequestOkhttp.createNormalRequest(url)
+                val call = client?.newCall(request)
+                call?.enqueue(object : Callback {
+                    override fun onFailure(request: Request, e: IOException) {
+                        requestReciver?.onRequestRecive(true, e.toString())
+                        //error = true
+                        //result = e.toString()
+                    }
+                    override fun onResponse(response: Response) {
+                        requestReciver?.onRequestRecive(false, response.body().string())
+                        //result = response.body().string()
+                    }
+                })
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+           // requestReciver?.onRequestRecive(error, result)
         }
 
     }
@@ -120,13 +165,6 @@ class NativeHttpRequestOkhttp {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             requestReciver?.onRequestRecive(error, result)
-        }
-        fun createNormalClient(): OkHttpClient {
-            var okhttp : OkHttpClient = OkHttpClient()
-            okhttp.setWriteTimeout(10, TimeUnit.SECONDS)
-            okhttp.setReadTimeout(10, TimeUnit.SECONDS)
-            okhttp.setConnectTimeout(10, TimeUnit.SECONDS)
-            return okhttp
         }
     }
 
