@@ -18,6 +18,11 @@ import kotlinx.android.synthetic.main.device_control_layout.*
  */
 class DeviceControlActivity : AppCompatActivity() {
     var fragments : ArrayList<Fragment> = ArrayList()
+    var sn : String? = null
+    var ip : String? = null
+    var mac : String? = null
+    var msg : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.device_control_layout)
@@ -25,7 +30,11 @@ class DeviceControlActivity : AppCompatActivity() {
         control_toolbar.setTitleTextColor(Color.WHITE)
         setSupportActionBar(control_toolbar)
         var indexFragment : DeviceControlIndexFragment? = DeviceControlIndexFragment().getInstance()
-        indexFragment?.setData(intent.getStringExtra("sn"), intent.getStringExtra("ip"), intent.getStringExtra("mac"), intent.getStringExtra("info"))
+        sn = intent.getStringExtra("sn")
+        ip = intent.getStringExtra("ip")
+        mac = intent.getStringExtra("mac")
+        msg = intent.getStringExtra("info")
+        indexFragment?.setData(sn, ip, mac, msg)
         fragments.add(indexFragment as Fragment)
         control_pager.adapter = TabAdapter(supportFragmentManager, fragments)
         control_tablayout.setupWithViewPager(control_pager);

@@ -33,7 +33,7 @@ class DeviceControlIndexFragment() : LazyLoadFragment() {
         }
     }
 
-    fun setData(sn : String, ip : String, mac : String, msg : String) {
+    fun setData(sn : String?, ip : String?, mac : String?, msg : String?) {
         this.sn = sn
         this.ip = ip
         this.mac = mac
